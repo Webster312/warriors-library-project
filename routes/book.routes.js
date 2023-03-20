@@ -1,41 +1,43 @@
-const express = require("express");
-const Book = require("../models/Book.model");
+const express = require('express');
+const Book = require('../models/Book.model');
 const router = express.Router();
 
 // GET /books
 router.get("/books", (req, res, next) => {
+
   Book.find()
-    .then((booksArr) => {
+    .then(booksArr => {
+
       const data = {
-        books: booksArr,
+        books: booksArr
       };
 
       res.render("books/books-list", data);
     })
-    .catch((e) => {
+    .catch(e => {
       console.log("error getting books from DB", e);
       next(e);
     });
 });
 
-// Get / books / create
+
+
+//GET /books/create
 router.get("/books/create", (req, res, next) => {
   res.render("books/book-create");
 });
 
 
 
-
-// POST Books
+//POST /books
 router.post("/books", (req, res, next) => {
-  console.log(req.body);
-
+  
   const bookDetails = {
     title: req.body.title,
     description: req.body.description,
     author: req.body.author,
-    rating: req.body.rating,
-  };
+    rating: req.body.rating
+  }
 
   Book.create(bookDetails)
     .then( bookFromDB => {
@@ -50,20 +52,23 @@ router.post("/books", (req, res, next) => {
 
 
 
-
-
 //GET /books/:bookId
 router.get("/books/:bookId", (req, res, next) => {
-  const { bookId } = req.params;
+
+  const {bookId} = req.params;
 
   Book.findById(bookId)
-    .then((bookDetails) => {
+    .then( bookDetails => {
       res.render("books/book-details", bookDetails);
     })
-    .catch((e) => {
+    .catch(e => {
       console.log("error getting book details from DB", e);
       next(e);
     });
+
 });
+
+
+
 
 module.exports = router;
