@@ -51,7 +51,6 @@ router.post("/books", (req, res, next) => {
 });
 
 
-
 //GET /books/:bookId
 router.get("/books/:bookId", (req, res, next) => {
 
@@ -67,6 +66,27 @@ router.get("/books/:bookId", (req, res, next) => {
     });
 
 });
+
+
+
+
+// GET / books/ edit
+router.get("/books/:bookId/edit", (req, res, next) => {
+  const { bookId } =req.params;
+
+  Book.findById(bookId)
+  .then(bookToEdit => {
+      res.render('books/book-edit', { book: bookToEdit });
+    
+  })
+  .catch(error => next(error));
+});
+
+
+
+
+
+
 
 
 
